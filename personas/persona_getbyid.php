@@ -1,4 +1,7 @@
 <?php
+
+require "validar.php";
+
 try {
     $id = $_GET['id'] ?? '';    
 

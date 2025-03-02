@@ -1,40 +1,33 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+header("Access-Control-Allow-Headers: Authorization, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 
 header("Content-Type: application/json");
 
-// Incluye el archivo de configuración
+
 require_once 'config.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 $request = $_GET['request'] ?? '';
 
-// Define las rutas y maneja las solicitudes
+// Rutas
 switch ($request) {
+    case 'login':
+        if ($method == 'POST') {
+            require 'login/index.php';
+        }
+        break;
     case 'persona':
         if ($method == 'GET') {
-            require 'persona_getall.php';
+            require 'personas/persona_getall.php';
         } elseif ($method == 'POST') {
-            require 'persona_add.php';
+            require 'personas/persona_add.php';
         } elseif ($method == 'PUT') {
-            require 'persona_update.php';
-        } else {
-            echo json_encode(['error' => 'Método no permitido']);
-        }
-        break;
-    case "persona_getbyid":
-        if ($method == 'GET') {
-            require 'persona_getbyid.php';
-        }
-        break;
-
-    case 'delete_persona':
-        if ($method == 'DELETE') {
-            echo "DELETE";
-            require 'persona_delete.php';
+            require 'personas/persona_update.php';
+        } elseif ($method == 'DELETE') {
+            require 'personas/persona_delete.php';
         } else {
             echo json_encode(['error' => 'Método no permitido']);
         }
@@ -42,23 +35,92 @@ switch ($request) {
 
     case "equipo":
         if ($method == 'GET') {
-            require 'equipo_getall.php';
+            require 'equipos/equipo_getall.php';
         }
         if ($method == 'POST') {
-            require 'equipo_add.php';
+            require 'equipos/equipo_add.php';
+        }
+        if ($method == 'DELETE') {
+            require 'equipos/equipo_delete.php';
+        }
+        break;
+
+    case "equiposselect":
+        if ($method == 'GET') {
+            require 'equipos/select.php';
+        }
+        break;
+
+
+    case 'persona_sinequipo':
+        if ($method == 'GET') {
+            require 'personas/persona_get_sinequipo.php';
+        }
+        break;
+
+    case "persona_getbyid":
+        if ($method == 'GET') {
+            require 'personas/persona_getbyid.php';
         }
         break;
     case "equipo_get_delegados":
-        require 'equipo_get_delegados.php';
+        require 'equipos/equipo_get_delegados.php';
         break;
     case "equipo_get_jugadores":
-        require 'equipo_get_jugadores.php';
+        require 'equipos/equipo_get_jugadores.php';
         break;
     case "escudo":
         if ($method == 'GET') {
-            require 'escudo_get.php';
+            require 'equipos/escudo_get.php';
         }
         break;
+
+    case "foto":
+        if ($method == 'GET') {
+            require 'personas/foto_get.php';
+        }
+        break;
+    case "carnet":
+        if ($method == 'GET') {
+            require 'personas/foto_carnet.php';
+        }
+        break;
+
+    case "goles":
+        if ($method == 'GET') {
+            require 'goles/goles_getall.php';
+        }
+        if ($method == 'POST') {
+            require 'goles/goles_add.php';
+        }
+        if ($method == 'DELETE') {
+            require 'goles/goles_delete.php';
+        }
+        break;
+    case "tabla":
+        if ($method == 'GET') {
+            require 'goles/tabla_get.php';
+        }
+        break;
+
+    case "divisiones":
+        if ($method == 'GET') {
+            require 'divisiones/divisiones_get.php';
+        }
+        break;
+
+        case "historial":
+            if ($method == 'GET') {
+                require 'personas/historial_get.php';
+            }
+            break;
+
+            case "CambiarPass":
+                if ($method == 'POST') {
+                    require 'cambiar_pass.php';
+                }
+                break;
+            
 
     default:
         echo json_encode(['error' => 'Endpoint no encontrado']);
